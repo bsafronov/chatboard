@@ -1,0 +1,32 @@
+{
+  "projectName": "chatboard",
+  "mode": "file-router",
+  "typescript": true,
+  "packageManager": "bun",
+  "includeExamples": false,
+  "tailwind": true,
+  "addOnOptions": {
+    "drizzle": {
+      "database": "postgresql"
+    }
+  },
+  "envVarValues": {},
+  "git": true,
+  "routerOnly": false,
+  "version": 1,
+  "framework": "react",
+  "chosenAddOns": [
+    "biome",
+    "compiler",
+    "db",
+    "drizzle",
+    "form",
+    "oRPC",
+    "shadcn",
+    "t3env",
+    "table",
+    "better-auth",
+    "store",
+    "tanstack-query"
+  ]
+}
