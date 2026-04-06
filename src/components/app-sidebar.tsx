@@ -2,7 +2,8 @@ import { useLiveSuspenseQuery } from "@tanstack/react-db";
 import { Link } from "@tanstack/react-router";
 import { Loader2, LucidePlus } from "lucide-react";
 import { Suspense } from "react";
-import { tableCollection } from "@/db-collections";
+import { tableCollection } from "@/features/table/collection";
+import { NavUser } from "./nav-user";
 import {
 	Sidebar,
 	SidebarContent,
@@ -35,7 +36,9 @@ export function AppSidebar() {
 					<ChatList />
 				</Suspense>
 			</SidebarContent>
-			<SidebarFooter>Footer</SidebarFooter>
+			<SidebarFooter>
+				<NavUser />
+			</SidebarFooter>
 		</Sidebar>
 	);
 }
@@ -56,7 +59,11 @@ function ChatList() {
 		<ul>
 			{chats.map((chat) => (
 				<li key={chat.id}>
-					<Link to="/tables/$tableId" params={{ tableId: chat.id }}>
+					<Link
+						to="/tables/$tableId"
+						params={{ tableId: chat.id }}
+						className="[*.active]:text-blue-500"
+					>
 						{chat.name}
 					</Link>
 				</li>

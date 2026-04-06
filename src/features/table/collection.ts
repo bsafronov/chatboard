@@ -1,5 +1,5 @@
-import { createCollection } from "@tanstack/db";
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
+import { createCollection } from "@tanstack/react-db";
 import { queryClient } from "@/lib/query-client";
 import { orpc } from "@/orpc/client";
 

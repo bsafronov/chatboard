@@ -218,3 +218,5 @@ export type ColumnType = (typeof columnTypes.enumValues)[number];
 
 export const TableSchema = createSelectSchema(tables);
 export const insertTableSchema = createInsertSchema(tables);
+export const insertColumnSchema = createInsertSchema(columns);
+export const selectColumnSchema = createSelectSchema(columns);

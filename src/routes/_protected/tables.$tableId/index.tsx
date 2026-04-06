@@ -1,9 +1,22 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { LucideSettings } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_protected/tables/$tableId/")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	return <div>Hello "/_protected/tables/$/"!</div>;
+	const { tableId } = Route.useParams();
+	return (
+		<div>
+			<Link
+				to="/tables/$tableId/settings"
+				params={{ tableId }}
+				className={buttonVariants({ size: "icon" })}
+			>
+				<LucideSettings />
+			</Link>
+		</div>
+	);
 }

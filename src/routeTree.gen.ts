@@ -17,6 +17,7 @@ import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 import { Route as ProtectedTablesNewRouteImport } from './routes/_protected/tables.new'
 import { Route as ProtectedTablesTableIdIndexRouteImport } from './routes/_protected/tables.$tableId/index'
+import { Route as ProtectedTablesTableIdSettingsRouteImport } from './routes/_protected/tables.$tableId/settings'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -58,6 +59,12 @@ const ProtectedTablesTableIdIndexRoute =
     path: '/tables/$tableId/',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedTablesTableIdSettingsRoute =
+  ProtectedTablesTableIdSettingsRouteImport.update({
+    id: '/tables/$tableId/settings',
+    path: '/tables/$tableId/settings',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof ProtectedIndexRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/tables/new': typeof ProtectedTablesNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/tables/$tableId/settings': typeof ProtectedTablesTableIdSettingsRoute
   '/tables/$tableId/': typeof ProtectedTablesTableIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -75,6 +83,7 @@ export interface FileRoutesByTo {
   '/tables/new': typeof ProtectedTablesNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/tables/$tableId/settings': typeof ProtectedTablesTableIdSettingsRoute
   '/tables/$tableId': typeof ProtectedTablesTableIdIndexRoute
 }
 export interface FileRoutesById {
@@ -86,6 +95,7 @@ export interface FileRoutesById {
   '/_protected/tables/new': typeof ProtectedTablesNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/_protected/tables/$tableId/settings': typeof ProtectedTablesTableIdSettingsRoute
   '/_protected/tables/$tableId/': typeof ProtectedTablesTableIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/tables/new'
     | '/api/auth/$'
     | '/api/rpc/$'
+    | '/tables/$tableId/settings'
     | '/tables/$tableId/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/tables/new'
     | '/api/auth/$'
     | '/api/rpc/$'
+    | '/tables/$tableId/settings'
     | '/tables/$tableId'
   id:
     | '__root__'
@@ -116,6 +128,7 @@ export interface FileRouteTypes {
     | '/_protected/tables/new'
     | '/api/auth/$'
     | '/api/rpc/$'
+    | '/_protected/tables/$tableId/settings'
     | '/_protected/tables/$tableId/'
   fileRoutesById: FileRoutesById
 }
@@ -185,18 +198,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedTablesTableIdIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/tables/$tableId/settings': {
+      id: '/_protected/tables/$tableId/settings'
+      path: '/tables/$tableId/settings'
+      fullPath: '/tables/$tableId/settings'
+      preLoaderRoute: typeof ProtectedTablesTableIdSettingsRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
   }
 }
 
 interface ProtectedRouteChildren {
   ProtectedIndexRoute: typeof ProtectedIndexRoute
   ProtectedTablesNewRoute: typeof ProtectedTablesNewRoute
+  ProtectedTablesTableIdSettingsRoute: typeof ProtectedTablesTableIdSettingsRoute
   ProtectedTablesTableIdIndexRoute: typeof ProtectedTablesTableIdIndexRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedIndexRoute: ProtectedIndexRoute,
   ProtectedTablesNewRoute: ProtectedTablesNewRoute,
+  ProtectedTablesTableIdSettingsRoute: ProtectedTablesTableIdSettingsRoute,
   ProtectedTablesTableIdIndexRoute: ProtectedTablesTableIdIndexRoute,
 }
 
