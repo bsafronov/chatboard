@@ -9,15 +9,28 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ProtectedRouteImport } from './routes/_protected'
+import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
 import { Route as ApiSplatRouteImport } from './routes/api/$'
 import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
+import { Route as ProtectedTablesNewRouteImport } from './routes/_protected/tables.new'
+import { Route as ProtectedTablesTableIdIndexRouteImport } from './routes/_protected/tables.$tableId/index'
 
-const IndexRoute = IndexRouteImport.update({
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProtectedRoute = ProtectedRouteImport.update({
+  id: '/_protected',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => ProtectedRoute,
 } as any)
 const ApiSplatRoute = ApiSplatRouteImport.update({
   id: '/api/$',
@@ -34,36 +47,81 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedTablesNewRoute = ProtectedTablesNewRouteImport.update({
+  id: '/tables/new',
+  path: '/tables/new',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedTablesTableIdIndexRoute =
+  ProtectedTablesTableIdIndexRouteImport.update({
+    id: '/tables/$tableId/',
+    path: '/tables/$tableId/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof ProtectedIndexRoute
+  '/login': typeof LoginRoute
   '/api/$': typeof ApiSplatRoute
+  '/tables/new': typeof ProtectedTablesNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/tables/$tableId/': typeof ProtectedTablesTableIdIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/api/$': typeof ApiSplatRoute
+  '/': typeof ProtectedIndexRoute
+  '/tables/new': typeof ProtectedTablesNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/tables/$tableId': typeof ProtectedTablesTableIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_protected': typeof ProtectedRouteWithChildren
+  '/login': typeof LoginRoute
   '/api/$': typeof ApiSplatRoute
+  '/_protected/': typeof ProtectedIndexRoute
+  '/_protected/tables/new': typeof ProtectedTablesNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/_protected/tables/$tableId/': typeof ProtectedTablesTableIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/$' | '/api/auth/$' | '/api/rpc/$'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/api/$'
+    | '/tables/new'
+    | '/api/auth/$'
+    | '/api/rpc/$'
+    | '/tables/$tableId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/$' | '/api/auth/$' | '/api/rpc/$'
-  id: '__root__' | '/' | '/api/$' | '/api/auth/$' | '/api/rpc/$'
+  to:
+    | '/login'
+    | '/api/$'
+    | '/'
+    | '/tables/new'
+    | '/api/auth/$'
+    | '/api/rpc/$'
+    | '/tables/$tableId'
+  id:
+    | '__root__'
+    | '/_protected'
+    | '/login'
+    | '/api/$'
+    | '/_protected/'
+    | '/_protected/tables/new'
+    | '/api/auth/$'
+    | '/api/rpc/$'
+    | '/_protected/tables/$tableId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  ProtectedRoute: typeof ProtectedRouteWithChildren
+  LoginRoute: typeof LoginRoute
   ApiSplatRoute: typeof ApiSplatRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute
@@ -71,12 +129,26 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_protected/': {
+      id: '/_protected/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedIndexRouteImport
+      parentRoute: typeof ProtectedRoute
     }
     '/api/$': {
       id: '/api/$'
@@ -99,11 +171,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected/tables/new': {
+      id: '/_protected/tables/new'
+      path: '/tables/new'
+      fullPath: '/tables/new'
+      preLoaderRoute: typeof ProtectedTablesNewRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/tables/$tableId/': {
+      id: '/_protected/tables/$tableId/'
+      path: '/tables/$tableId'
+      fullPath: '/tables/$tableId/'
+      preLoaderRoute: typeof ProtectedTablesTableIdIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
   }
 }
 
+interface ProtectedRouteChildren {
+  ProtectedIndexRoute: typeof ProtectedIndexRoute
+  ProtectedTablesNewRoute: typeof ProtectedTablesNewRoute
+  ProtectedTablesTableIdIndexRoute: typeof ProtectedTablesTableIdIndexRoute
+}
+
+const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedIndexRoute: ProtectedIndexRoute,
+  ProtectedTablesNewRoute: ProtectedTablesNewRoute,
+  ProtectedTablesTableIdIndexRoute: ProtectedTablesTableIdIndexRoute,
+}
+
+const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
+  ProtectedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  ProtectedRoute: ProtectedRouteWithChildren,
+  LoginRoute: LoginRoute,
   ApiSplatRoute: ApiSplatRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
