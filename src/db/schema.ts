@@ -9,6 +9,7 @@ import {
 	timestamp,
 	uuid,
 } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const id = uuid("id").primaryKey().default(sql`gen_random_uuid()`);
 export const createdAt = timestamp("created_at", { withTimezone: true })
@@ -214,3 +215,6 @@ export type ColumnInsert = typeof columns.$inferInsert;
 export type Row = typeof rows.$inferSelect;
 export type RowInsert = typeof rows.$inferInsert;
 export type ColumnType = (typeof columnTypes.enumValues)[number];
+
+export const TableSchema = createSelectSchema(tables);
+export const insertTableSchema = createInsertSchema(tables);
