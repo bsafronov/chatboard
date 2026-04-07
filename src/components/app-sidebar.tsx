@@ -13,10 +13,11 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "./ui/sidebar";
+import { ThemeToggle } from "./ui/theme-toggle";
 
 export function AppSidebar() {
 	return (
-		<Sidebar>
+		<Sidebar variant="inset">
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
@@ -37,6 +38,7 @@ export function AppSidebar() {
 				</Suspense>
 			</SidebarContent>
 			<SidebarFooter>
+				<ThemeToggle />
 				<NavUser />
 			</SidebarFooter>
 		</Sidebar>

@@ -18,6 +18,7 @@ type Props<T> = {
 };
 
 export function DataTable<T>({ table }: Props<T>) {
+	const { rows } = table.getRowModel();
 	return (
 		<Table>
 			<TableHeader>
@@ -47,7 +48,7 @@ export function DataTable<T>({ table }: Props<T>) {
 				))}
 			</TableHeader>
 			<TableBody>
-				{table.getRowModel().rows.map((row) => (
+				{rows.map((row) => (
 					<TableRow key={row.id}>
 						{row.getAllCells().map((cell) => (
 							<TableCell
@@ -61,6 +62,16 @@ export function DataTable<T>({ table }: Props<T>) {
 						))}
 					</TableRow>
 				))}
+				{!rows.length && (
+					<TableRow>
+						<TableCell
+							colSpan={table.options.columns.length}
+							className="text-center text-muted-foreground"
+						>
+							Нет данных
+						</TableCell>
+					</TableRow>
+				)}
 			</TableBody>
 		</Table>
 	);

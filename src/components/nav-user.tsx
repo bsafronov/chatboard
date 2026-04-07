@@ -55,7 +55,7 @@ export function NavUser() {
 					>
 						<DropdownMenuItem>
 							<UserCircleIcon />
-							Account
+							Аккаунт
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>

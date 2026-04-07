@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { LucidePlus, LucideSettings } from "lucide-react";
+import { LucidePlus, LucideSendHorizonal, LucideSettings } from "lucide-react";
 import { Suspense, useCallback } from "react";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Row } from "@/db/schema";
 import { rowCollection } from "@/features/row/collection";
@@ -35,11 +36,18 @@ function RouteComponent() {
 
 	return (
 		<div className="flex flex-col grow gap-4">
-			<div className="flex gap-2 justify-end">
+			<Suspense fallback={<Skeleton className="grow" />}>
+				<Card>
+					<CardContent className="p-0">
+						<TableView tableId={tableId} onDelete={onDelete} onEdit={onEdit} />
+					</CardContent>
+				</Card>
+			</Suspense>
+			<div className="flex items-center gap-2 mt-auto">
 				<Link
 					to="/tables/$tableId/settings"
 					params={{ tableId }}
-					className={buttonVariants({ size: "icon" })}
+					className={buttonVariants({ size: "icon-lg", variant: "ghost" })}
 				>
 					<LucideSettings />
 				</Link>
@@ -50,14 +58,11 @@ function RouteComponent() {
 				>
 					<LucidePlus />
 				</Link>
+				<Input placeholder="От меня что требуется?" />
+				<Button size="icon-lg" variant="ghost">
+					<LucideSendHorizonal />
+				</Button>
 			</div>
-			<Suspense fallback={<Skeleton className="grow" />}>
-				<Card>
-					<CardContent className="p-0">
-						<TableView tableId={tableId} onDelete={onDelete} onEdit={onEdit} />
-					</CardContent>
-				</Card>
-			</Suspense>
 		</div>
 	);
 }
