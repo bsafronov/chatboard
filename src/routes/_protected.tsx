@@ -24,14 +24,12 @@ function RouteComponent() {
 		<SidebarProvider>
 			<AppSidebar />
 			<SidebarInset>
-				<main className="grow flex flex-col">
-					<div className="border-b p-2">
-						<SidebarTrigger />
-					</div>
-					<div className="flex flex-col p-4 grow">
-						<Outlet />
-					</div>
-				</main>
+				<div className="border-b p-2">
+					<SidebarTrigger />
+				</div>
+				<div className="flex flex-col p-4 grow">
+					<Outlet />
+				</div>
 			</SidebarInset>
 		</SidebarProvider>
 	);
