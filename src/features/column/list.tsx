@@ -1,4 +1,5 @@
 import { eq, useLiveSuspenseQuery } from "@tanstack/react-db";
+import { Card } from "@/components/ui/card";
 import { columnCollection } from "./collection";
 import { ColumnItem } from "./item";
 
@@ -14,10 +15,10 @@ export function ColumnList({ tableId }: Props) {
 	);
 
 	return (
-		<div className="flex flex-col gap-2">
+		<Card className="flex flex-col divide-y p-0 gap-0">
 			{columns.map((item) => (
 				<ColumnItem key={item.id} column={item} />
 			))}
-		</div>
+		</Card>
 	);
 }

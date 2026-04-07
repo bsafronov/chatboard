@@ -8,6 +8,7 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { Loader2 } from "lucide-react";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import type { orpc } from "@/orpc/client";
@@ -41,6 +42,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 	}),
 	ssr: false,
 	shellComponent: RootDocument,
+	pendingComponent: () => (
+		<div className="h-svh grid place-items-center">
+			<Loader2 className="animate-spin" />
+		</div>
+	),
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {

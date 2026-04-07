@@ -1,10 +1,11 @@
 import { LucideCheck, LucideEdit, LucideX } from "lucide-react";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { Column } from "@/db/schema";
 import { columnCollection } from "./collection";
+import { typeToName } from "./const";
 
 type Props = {
 	column: Column;
@@ -15,9 +16,10 @@ export function ColumnItem({ column }: Props) {
 	const [name, setName] = useState(column.name);
 
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle className="flex items-center gap-1">
+		<div className="p-4 flex justify-between items-start gap-2">
+			<div className="flex items-center gap-2">
+				<Badge>{typeToName[column.type]}</Badge>
+				<div className="flex items-center gap-1">
 					{editing ? (
 						<>
 							<Input value={name} onChange={(e) => setName(e.target.value)} />
@@ -56,13 +58,12 @@ export function ColumnItem({ column }: Props) {
 							</Button>
 						</>
 					)}
-				</CardTitle>
-			</CardHeader>
-			<CardFooter>
-				<Button onClick={() => columnCollection.delete(column.id)}>
-					Удалить
-				</Button>
-			</CardFooter>
-		</Card>
+				</div>
+			</div>
+
+			<Button onClick={() => columnCollection.delete(column.id)}>
+				Удалить
+			</Button>
+		</div>
 	);
 }
