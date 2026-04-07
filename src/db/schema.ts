@@ -220,3 +220,5 @@ export const TableSchema = createSelectSchema(tables);
 export const insertTableSchema = createInsertSchema(tables);
 export const insertColumnSchema = createInsertSchema(columns);
 export const selectColumnSchema = createSelectSchema(columns);
+export const insertRowSchema = createInsertSchema(rows);
+export const selectRowSchema = createSelectSchema(rows);

@@ -2,8 +2,11 @@ import { eq } from "drizzle-orm";
 import {
 	columns,
 	insertColumnSchema,
+	insertRowSchema,
 	insertTableSchema,
+	rows,
 	selectColumnSchema,
+	selectRowSchema,
 	TableSchema,
 	tables,
 } from "@/db/schema";
@@ -68,4 +71,40 @@ export const updateColumn = authProcedure
 			.where(eq(columns.id, input.id))
 			.returning();
 		return column;
+	});
+
+export const getRows = authProcedure
+	.input(selectRowSchema.pick({ tableId: true }))
+	.handler(async ({ context: { db }, input }) => {
+		return db.query.rows.findMany({
+			where: eq(rows.tableId, input.tableId),
+		});
+	});
+
+export const createRow = authProcedure
+	.input(insertRowSchema)
+	.handler(async ({ context: { db }, input }) => {
+		const [row] = await db.insert(rows).values(input).returning();
+		return row;
+	});
+
+export const deleteRow = authProcedure
+	.input(selectRowSchema.pick({ id: true }))
+	.handler(async ({ context: { db }, input }) => {
+		const [row] = await db
+			.delete(rows)
+			.where(eq(rows.id, input.id))
+			.returning();
+		return row;
+	});
+
+export const updateRow = authProcedure
+	.input(selectRowSchema)
+	.handler(async ({ context: { db }, input }) => {
+		const [row] = await db
+			.update(rows)
+			.set(input)
+			.where(eq(rows.id, input.id))
+			.returning();
+		return row;
 	});

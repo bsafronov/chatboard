@@ -1,5 +1,10 @@
 import { flexRender, type Table as TableType } from "@tanstack/react-table";
 import {
+	LucideChevronDown,
+	LucideChevronsUpDown,
+	LucideChevronUp,
+} from "lucide-react";
+import {
 	Table,
 	TableBody,
 	TableCell,
@@ -20,12 +25,22 @@ export function DataTable<T>({ table }: Props<T>) {
 					<TableRow key={headerGroup.id}>
 						{headerGroup.headers.map((header) => (
 							<TableHead key={header.id}>
-								{header.isPlaceholder
-									? null
-									: flexRender(
-											header.column.columnDef.header,
-											header.getContext(),
-										)}
+								<div className="flex items-center gap-1 [&>svg]:size-4">
+									{header.isPlaceholder
+										? null
+										: flexRender(
+												header.column.columnDef.header,
+												header.getContext(),
+											)}
+									{header.column.getCanSort() &&
+										(header.column.getIsSorted() === "asc" ? (
+											<LucideChevronUp />
+										) : header.column.getIsSorted() === "desc" ? (
+											<LucideChevronDown />
+										) : (
+											<LucideChevronsUpDown />
+										))}
+								</div>
 							</TableHead>
 						))}
 					</TableRow>
@@ -35,7 +50,12 @@ export function DataTable<T>({ table }: Props<T>) {
 				{table.getRowModel().rows.map((row) => (
 					<TableRow key={row.id}>
 						{row.getAllCells().map((cell) => (
-							<TableCell key={cell.id}>
+							<TableCell
+								key={cell.id}
+								style={{
+									width: cell.column.getSize(),
+								}}
+							>
 								{flexRender(cell.column.columnDef.cell, cell.getContext())}
 							</TableCell>
 						))}

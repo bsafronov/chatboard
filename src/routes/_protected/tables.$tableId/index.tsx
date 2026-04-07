@@ -1,56 +1,63 @@
-import { eq, useLiveSuspenseQuery } from "@tanstack/react-db";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-	type ColumnDef,
-	getCoreRowModel,
-	useReactTable,
-} from "@tanstack/react-table";
-import { LucideSettings } from "lucide-react";
-import { useMemo } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { LucidePlus, LucideSettings } from "lucide-react";
+import { Suspense, useCallback } from "react";
 import { buttonVariants } from "@/components/ui/button";
-import { columnCollection } from "@/features/column/collection";
-import { DataTable } from "@/features/table/data-table";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { Row } from "@/db/schema";
+import { rowCollection } from "@/features/row/collection";
+import { TableView } from "@/features/table/table-view";
 
 export const Route = createFileRoute("/_protected/tables/$tableId/")({
 	component: RouteComponent,
 });
 
+type TableRow = Pick<Row, "createdAt" | "updatedAt" | "id"> & {
+	[key: string]: unknown;
+};
 function RouteComponent() {
 	const { tableId } = Route.useParams();
+	const navigate = useNavigate();
 
-	const { data: columns } = useLiveSuspenseQuery((q) =>
-		q
-			.from({ column: columnCollection })
-			.where(({ column }) => eq(column.tableId, tableId)),
+	const onDelete = useCallback((row: TableRow) => {
+		rowCollection.delete(row.id);
+	}, []);
+
+	const onEdit = useCallback(
+		(row: TableRow) => {
+			navigate({
+				to: "/tables/$tableId/rows/$rowId",
+				params: { tableId, rowId: row.id },
+			});
+		},
+		[tableId, navigate],
 	);
 
-	const resolvedColumns = useMemo(() => {
-		return columns.map((column) => {
-			const def: ColumnDef<Record<string, unknown>> = {
-				id: column.id,
-				header: column.name,
-				accessorKey: column.id,
-			};
-			return def;
-		});
-	}, [columns]);
-
-	const table = useReactTable({
-		getCoreRowModel: getCoreRowModel(),
-		data: [],
-		columns: resolvedColumns,
-	});
-
 	return (
-		<div>
-			<Link
-				to="/tables/$tableId/settings"
-				params={{ tableId }}
-				className={buttonVariants({ size: "icon" })}
-			>
-				<LucideSettings />
-			</Link>
-			<DataTable table={table} />
+		<div className="flex flex-col grow gap-4">
+			<div className="flex gap-2 justify-end">
+				<Link
+					to="/tables/$tableId/settings"
+					params={{ tableId }}
+					className={buttonVariants({ size: "icon" })}
+				>
+					<LucideSettings />
+				</Link>
+				<Link
+					to="/tables/$tableId/rows/new"
+					params={{ tableId }}
+					className={buttonVariants({ size: "icon" })}
+				>
+					<LucidePlus />
+				</Link>
+			</div>
+			<Suspense fallback={<Skeleton className="grow" />}>
+				<Card>
+					<CardContent className="p-0">
+						<TableView tableId={tableId} onDelete={onDelete} onEdit={onEdit} />
+					</CardContent>
+				</Card>
+			</Suspense>
 		</div>
 	);
 }
