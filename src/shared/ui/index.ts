@@ -21,6 +21,7 @@ export * from "./dialog";
 export * from "./direction";
 export * from "./drawer";
 export * from "./dropdown-menu";
+export * from "./dropzone";
 export * from "./empty";
 export * from "./field";
 export * from "./form-fields";

@@ -15,8 +15,9 @@ import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
 import { Route as ApiSplatRouteImport } from './routes/api/$'
 import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
-import { Route as ProtectedTablesNewRouteImport } from './routes/_protected/tables.new'
+import { Route as ProtectedTablesNewIndexRouteImport } from './routes/_protected/tables.new/index'
 import { Route as ProtectedTablesTableIdIndexRouteImport } from './routes/_protected/tables.$tableId/index'
+import { Route as ProtectedTablesNewPreviewRouteImport } from './routes/_protected/tables.new/preview'
 import { Route as ProtectedTablesTableIdSettingsRouteImport } from './routes/_protected/tables.$tableId/settings'
 import { Route as ProtectedTablesTableIdRowsNewRouteImport } from './routes/_protected/tables.$tableId/rows.new'
 import { Route as ProtectedTablesTableIdRowsRowIdRouteImport } from './routes/_protected/tables.$tableId/rows.$rowId'
@@ -50,15 +51,21 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedTablesNewRoute = ProtectedTablesNewRouteImport.update({
-  id: '/tables/new',
-  path: '/tables/new',
+const ProtectedTablesNewIndexRoute = ProtectedTablesNewIndexRouteImport.update({
+  id: '/tables/new/',
+  path: '/tables/new/',
   getParentRoute: () => ProtectedRoute,
 } as any)
 const ProtectedTablesTableIdIndexRoute =
   ProtectedTablesTableIdIndexRouteImport.update({
     id: '/tables/$tableId/',
     path: '/tables/$tableId/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedTablesNewPreviewRoute =
+  ProtectedTablesNewPreviewRouteImport.update({
+    id: '/tables/new/preview',
+    path: '/tables/new/preview',
     getParentRoute: () => ProtectedRoute,
   } as any)
 const ProtectedTablesTableIdSettingsRoute =
@@ -84,11 +91,12 @@ export interface FileRoutesByFullPath {
   '/': typeof ProtectedIndexRoute
   '/login': typeof LoginRoute
   '/api/$': typeof ApiSplatRoute
-  '/tables/new': typeof ProtectedTablesNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/tables/$tableId/settings': typeof ProtectedTablesTableIdSettingsRoute
+  '/tables/new/preview': typeof ProtectedTablesNewPreviewRoute
   '/tables/$tableId/': typeof ProtectedTablesTableIdIndexRoute
+  '/tables/new/': typeof ProtectedTablesNewIndexRoute
   '/tables/$tableId/rows/$rowId': typeof ProtectedTablesTableIdRowsRowIdRoute
   '/tables/$tableId/rows/new': typeof ProtectedTablesTableIdRowsNewRoute
 }
@@ -96,11 +104,12 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/api/$': typeof ApiSplatRoute
   '/': typeof ProtectedIndexRoute
-  '/tables/new': typeof ProtectedTablesNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/tables/$tableId/settings': typeof ProtectedTablesTableIdSettingsRoute
+  '/tables/new/preview': typeof ProtectedTablesNewPreviewRoute
   '/tables/$tableId': typeof ProtectedTablesTableIdIndexRoute
+  '/tables/new': typeof ProtectedTablesNewIndexRoute
   '/tables/$tableId/rows/$rowId': typeof ProtectedTablesTableIdRowsRowIdRoute
   '/tables/$tableId/rows/new': typeof ProtectedTablesTableIdRowsNewRoute
 }
@@ -110,11 +119,12 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/api/$': typeof ApiSplatRoute
   '/_protected/': typeof ProtectedIndexRoute
-  '/_protected/tables/new': typeof ProtectedTablesNewRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/_protected/tables/$tableId/settings': typeof ProtectedTablesTableIdSettingsRoute
+  '/_protected/tables/new/preview': typeof ProtectedTablesNewPreviewRoute
   '/_protected/tables/$tableId/': typeof ProtectedTablesTableIdIndexRoute
+  '/_protected/tables/new/': typeof ProtectedTablesNewIndexRoute
   '/_protected/tables/$tableId/rows/$rowId': typeof ProtectedTablesTableIdRowsRowIdRoute
   '/_protected/tables/$tableId/rows/new': typeof ProtectedTablesTableIdRowsNewRoute
 }
@@ -124,11 +134,12 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/api/$'
-    | '/tables/new'
     | '/api/auth/$'
     | '/api/rpc/$'
     | '/tables/$tableId/settings'
+    | '/tables/new/preview'
     | '/tables/$tableId/'
+    | '/tables/new/'
     | '/tables/$tableId/rows/$rowId'
     | '/tables/$tableId/rows/new'
   fileRoutesByTo: FileRoutesByTo
@@ -136,11 +147,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/api/$'
     | '/'
-    | '/tables/new'
     | '/api/auth/$'
     | '/api/rpc/$'
     | '/tables/$tableId/settings'
+    | '/tables/new/preview'
     | '/tables/$tableId'
+    | '/tables/new'
     | '/tables/$tableId/rows/$rowId'
     | '/tables/$tableId/rows/new'
   id:
@@ -149,11 +161,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/api/$'
     | '/_protected/'
-    | '/_protected/tables/new'
     | '/api/auth/$'
     | '/api/rpc/$'
     | '/_protected/tables/$tableId/settings'
+    | '/_protected/tables/new/preview'
     | '/_protected/tables/$tableId/'
+    | '/_protected/tables/new/'
     | '/_protected/tables/$tableId/rows/$rowId'
     | '/_protected/tables/$tableId/rows/new'
   fileRoutesById: FileRoutesById
@@ -210,11 +223,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected/tables/new': {
-      id: '/_protected/tables/new'
+    '/_protected/tables/new/': {
+      id: '/_protected/tables/new/'
       path: '/tables/new'
-      fullPath: '/tables/new'
-      preLoaderRoute: typeof ProtectedTablesNewRouteImport
+      fullPath: '/tables/new/'
+      preLoaderRoute: typeof ProtectedTablesNewIndexRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/tables/$tableId/': {
@@ -222,6 +235,13 @@ declare module '@tanstack/react-router' {
       path: '/tables/$tableId'
       fullPath: '/tables/$tableId/'
       preLoaderRoute: typeof ProtectedTablesTableIdIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/tables/new/preview': {
+      id: '/_protected/tables/new/preview'
+      path: '/tables/new/preview'
+      fullPath: '/tables/new/preview'
+      preLoaderRoute: typeof ProtectedTablesNewPreviewRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/tables/$tableId/settings': {
@@ -250,18 +270,20 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedRouteChildren {
   ProtectedIndexRoute: typeof ProtectedIndexRoute
-  ProtectedTablesNewRoute: typeof ProtectedTablesNewRoute
   ProtectedTablesTableIdSettingsRoute: typeof ProtectedTablesTableIdSettingsRoute
+  ProtectedTablesNewPreviewRoute: typeof ProtectedTablesNewPreviewRoute
   ProtectedTablesTableIdIndexRoute: typeof ProtectedTablesTableIdIndexRoute
+  ProtectedTablesNewIndexRoute: typeof ProtectedTablesNewIndexRoute
   ProtectedTablesTableIdRowsRowIdRoute: typeof ProtectedTablesTableIdRowsRowIdRoute
   ProtectedTablesTableIdRowsNewRoute: typeof ProtectedTablesTableIdRowsNewRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedIndexRoute: ProtectedIndexRoute,
-  ProtectedTablesNewRoute: ProtectedTablesNewRoute,
   ProtectedTablesTableIdSettingsRoute: ProtectedTablesTableIdSettingsRoute,
+  ProtectedTablesNewPreviewRoute: ProtectedTablesNewPreviewRoute,
   ProtectedTablesTableIdIndexRoute: ProtectedTablesTableIdIndexRoute,
+  ProtectedTablesNewIndexRoute: ProtectedTablesNewIndexRoute,
   ProtectedTablesTableIdRowsRowIdRoute: ProtectedTablesTableIdRowsRowIdRoute,
   ProtectedTablesTableIdRowsNewRoute: ProtectedTablesTableIdRowsNewRoute,
 }

@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_protected")({
 
 function RouteComponent() {
 	return (
-		<SidebarProvider>
+		<SidebarProvider className="h-svh">
 			<AppSidebar />
 			<Outlet />
 		</SidebarProvider>

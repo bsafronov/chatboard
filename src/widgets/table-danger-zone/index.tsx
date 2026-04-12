@@ -8,7 +8,7 @@ type Props = {
 };
 export function TableDangerZone({ onDelete, tableId }: Props) {
 	return (
-		<Card className="border-destructive-foreground/20 border bg-destructive/5 shadow-destructive/10">
+		<Card variant="destructive">
 			<CardHeader>
 				<CardTitle>Опасная зона</CardTitle>
 			</CardHeader>
