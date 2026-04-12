@@ -1,10 +1,9 @@
 import { eq, useLiveQuery } from "@tanstack/react-db";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Card, CardContent } from "@/components/ui/card";
-import { columnCollection } from "@/features/column/collection";
-import { rowCollection } from "@/features/row/collection";
-import { RowForm } from "@/features/row/form";
-import { useUser } from "@/hooks/use-user";
+import { columnCollection } from "@/entities/column";
+import { RowForm, rowCollection } from "@/entities/row";
+import { useUser } from "@/entities/user";
+import { Card, CardContent } from "@/shared/ui";
 
 export const Route = createFileRoute("/_protected/tables/$tableId/rows/new")({
 	component: RouteComponent,

@@ -1,10 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { AppSidebar } from "@/components/app-sidebar";
-import {
-	SidebarInset,
-	SidebarProvider,
-	SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/shared/ui";
+import { AppSidebar } from "@/widgets/app-sidebar";
 
 export const Route = createFileRoute("/_protected")({
 	component: RouteComponent,

@@ -1,13 +1,17 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { LucidePlus, LucideSendHorizonal, LucideSettings } from "lucide-react";
 import { Suspense, useCallback } from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { Row } from "@/db/schema";
-import { rowCollection } from "@/features/row/collection";
-import { TableView } from "@/features/table/table-view";
+import { rowCollection } from "@/entities/row";
+import type { Row } from "@/server";
+import {
+	Button,
+	buttonVariants,
+	Card,
+	CardContent,
+	Input,
+	Skeleton,
+} from "@/shared/ui";
+import { TableView } from "@/widgets/table-view";
 
 export const Route = createFileRoute("/_protected/tables/$tableId/")({
 	component: RouteComponent,

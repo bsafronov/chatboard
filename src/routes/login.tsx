@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { FaGithub } from "react-icons/fa";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { authClient } from "@/lib/auth-client";
+import { auth } from "@/shared/lib";
+import { Button, Card, CardContent, CardHeader, CardTitle } from "@/shared/ui";
 
 export const Route = createFileRoute("/login")({
 	component: RouteComponent,
@@ -17,7 +16,7 @@ function RouteComponent() {
 				</CardHeader>
 				<CardContent>
 					<Button
-						onClick={() => authClient.signIn.social({ provider: "github" })}
+						onClick={() => auth.signIn.social({ provider: "github" })}
 						className="w-full"
 					>
 						<FaGithub />

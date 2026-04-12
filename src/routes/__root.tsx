@@ -9,9 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Loader2 } from "lucide-react";
-import { ThemeProvider } from "@/components/ui/theme-provider";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import type { orpc } from "@/orpc/client";
+import type { orpc } from "@/shared/lib";
+import { ThemeProvider, TooltipProvider } from "@/shared/ui";
 import appCss from "../styles.css?url";
 
 interface MyRouterContext {

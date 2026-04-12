@@ -1,13 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Suspense } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { columnCollection } from "@/features/column/collection";
-import { ColumnForm } from "@/features/column/form";
-import { ColumnList } from "@/features/column/list";
-import { tableCollection } from "@/features/table/collection";
-import { TableDangerZone } from "@/features/table/danger-zone";
-import { useUser } from "@/hooks/use-user";
+import { ColumnForm, ColumnList, columnCollection } from "@/entities/column";
+import { tableCollection } from "@/entities/table";
+import { useUser } from "@/entities/user";
+import { Card, CardContent, Skeleton } from "@/shared/ui";
+import { TableDangerZone } from "@/widgets/table-danger-zone";
 
 export const Route = createFileRoute("/_protected/tables/$tableId/settings")({
 	component: RouteComponent,

@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { tableCollection } from "@/features/table/collection";
-import { TableForm } from "@/features/table/form";
-import { useUser } from "@/hooks/use-user";
+import { TableForm, tableCollection } from "@/entities/table";
+import { useUser } from "@/entities/user";
 
 export const Route = createFileRoute("/_protected/tables/new")({
 	component: RouteComponent,
