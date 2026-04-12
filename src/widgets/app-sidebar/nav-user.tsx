@@ -1,6 +1,8 @@
 "use client";
 
+import { useNavigate } from "@tanstack/react-router";
 import { LogOutIcon, LucideMoreVertical, UserCircleIcon } from "lucide-react";
+import { useUser } from "@/entities/user";
 import { auth } from "@/shared/lib";
 import {
 	Avatar,
@@ -19,9 +21,9 @@ import {
 
 export function NavUser() {
 	const { isMobile } = useSidebar();
-	const { data } = auth.useSession();
-	if (!data) return null;
-	const { user } = data;
+	const user = useUser();
+	const navigate = useNavigate();
+
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
@@ -58,9 +60,14 @@ export function NavUser() {
 							Аккаунт
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={() => {
+								auth.signOut();
+								navigate({ to: "/login" });
+							}}
+						>
 							<LogOutIcon />
-							Log out
+							Выйти
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>

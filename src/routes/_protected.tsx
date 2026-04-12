@@ -5,7 +5,9 @@ import { AppSidebar } from "@/widgets/app-sidebar";
 export const Route = createFileRoute("/_protected")({
 	component: RouteComponent,
 	loader: async ({ location, context: { orpc, queryClient } }) => {
-		const user = await queryClient.ensureQueryData(orpc.getUser.queryOptions());
+		const user = await queryClient.ensureQueryData(
+			orpc.user.auth.queryOptions(),
+		);
 		if (!user) {
 			throw redirect({
 				to: "/login",

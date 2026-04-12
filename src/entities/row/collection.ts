@@ -24,7 +24,7 @@ export const rowCollection = createCollection(
 
 			const { tableId } = schema.parse(parsed);
 
-			return orpc.getRows.call({ tableId });
+			return orpc.row.list.call({ tableId });
 		},
 		getKey: (item) => item.id,
 		queryKey: (opts) => {
@@ -42,15 +42,15 @@ export const rowCollection = createCollection(
 		},
 		onInsert: async ({ transaction }) => {
 			const item = transaction.mutations[0].modified;
-			await orpc.createRow.call(item);
+			await orpc.row.create.call(item);
 		},
 		onUpdate: async ({ transaction }) => {
 			const item = transaction.mutations[0].modified;
-			await orpc.updateRow.call(item);
+			await orpc.row.update.call(item);
 		},
 		onDelete: async ({ transaction }) => {
 			const item = transaction.mutations[0].original;
-			await orpc.deleteRow.call({ id: item.id });
+			await orpc.row.delete.call({ id: item.id });
 		},
 	}),
 );

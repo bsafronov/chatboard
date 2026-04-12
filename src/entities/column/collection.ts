@@ -22,7 +22,7 @@ export const columnCollection = createCollection(
 
 			const { tableId } = schema.parse(parsed);
 
-			return orpc.getColumns.call({ tableId });
+			return orpc.column.list.call({ tableId });
 		},
 		getKey: (item) => item.id,
 		queryKey: (opts) => {
@@ -39,15 +39,15 @@ export const columnCollection = createCollection(
 		},
 		onInsert: async ({ transaction }) => {
 			const item = transaction.mutations[0].modified;
-			await orpc.createColumn.call(item);
+			await orpc.column.create.call(item);
 		},
 		onUpdate: async ({ transaction }) => {
 			const item = transaction.mutations[0].modified;
-			await orpc.updateColumn.call(item);
+			await orpc.column.update.call(item);
 		},
 		onDelete: async ({ transaction }) => {
 			const item = transaction.mutations[0].original;
-			await orpc.deleteColumn.call({ id: item.id });
+			await orpc.column.delete.call({ id: item.id });
 		},
 	}),
 );

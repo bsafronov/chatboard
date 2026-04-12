@@ -3,7 +3,7 @@ import { redirect } from "@tanstack/react-router";
 import { orpc } from "@/shared/lib";
 
 export function useUser() {
-	const { data: user } = useSuspenseQuery(orpc.getUser.queryOptions());
+	const { data: user } = useSuspenseQuery(orpc.user.auth.queryOptions());
 	if (!user) {
 		throw redirect({
 			to: "/login",

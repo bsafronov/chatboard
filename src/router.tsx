@@ -15,6 +15,7 @@ export function getRouter() {
 		defaultPreload: "intent",
 		defaultPreloadStaleTime: 0,
 		defaultPendingComponent: () => <LucideLoader2 className="animate-spin" />,
+		defaultNotFoundComponent: () => <div>404</div>,
 	});
 
 	setupRouterSsrQueryIntegration({ router, queryClient });
