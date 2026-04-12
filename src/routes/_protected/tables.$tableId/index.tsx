@@ -1,16 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { LucidePlus, LucideSendHorizonal, LucideSettings } from "lucide-react";
+import { LucidePlus, LucideSettings } from "lucide-react";
 import { Suspense, useCallback } from "react";
 import { rowCollection } from "@/entities/row";
+import { RowCreateAiInput } from "@/features/row-create";
 import type { Row } from "@/server";
-import {
-	Button,
-	buttonVariants,
-	Card,
-	CardContent,
-	Input,
-	Skeleton,
-} from "@/shared/ui";
+import { buttonVariants, Card, CardContent, Skeleton } from "@/shared/ui";
 import { TableView } from "@/widgets/table-view";
 
 export const Route = createFileRoute("/_protected/tables/$tableId/")({
@@ -62,10 +56,7 @@ function RouteComponent() {
 				>
 					<LucidePlus />
 				</Link>
-				<Input placeholder="От меня что требуется?" />
-				<Button size="icon-lg" variant="ghost">
-					<LucideSendHorizonal />
-				</Button>
+				<RowCreateAiInput />
 			</div>
 		</div>
 	);

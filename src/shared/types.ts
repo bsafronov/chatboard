@@ -1,4 +1,6 @@
-import type { FormValidateFn } from "@tanstack/react-form";
+/** biome-ignore-all lint/suspicious/noExplicitAny: lib */
+
+import type { FormValidateFn, FormApi as TFormApi } from "@tanstack/react-form";
 
 export type FieldProps = {
 	label: string;
@@ -11,3 +13,18 @@ export type FormProps<TData> = {
 	onSubmit?: FormValidateFn<TData>;
 	defaultValues: TData;
 };
+
+export type FormApi<TData> = TFormApi<
+	TData,
+	any,
+	any,
+	any,
+	any,
+	any,
+	any,
+	any,
+	any,
+	any,
+	any,
+	any
+>;

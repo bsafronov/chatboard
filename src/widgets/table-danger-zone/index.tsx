@@ -1,52 +1,19 @@
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-	Button,
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-} from "@/shared/ui";
+import { TableDeleteTrigger } from "@/features/table-delete";
+import type { Table } from "@/server";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui";
 
 type Props = {
-	onDelete: () => void;
+	onDelete: (prevTable?: Table) => void;
+	tableId: Table["id"];
 };
-export function TableDangerZone({ onDelete }: Props) {
+export function TableDangerZone({ onDelete, tableId }: Props) {
 	return (
 		<Card className="border-destructive-foreground/20 border bg-destructive/5 shadow-destructive/10">
 			<CardHeader>
 				<CardTitle>Опасная зона</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<AlertDialog>
-					<AlertDialogTrigger
-						render={<Button variant={"destructive"}>Удалить таблицу</Button>}
-					/>
-
-					<AlertDialogContent>
-						<AlertDialogHeader>
-							<AlertDialogTitle>
-								Вы уверены, что хотите удалить таблицу?
-							</AlertDialogTitle>
-							<AlertDialogDescription>
-								Все данные будут удалены
-							</AlertDialogDescription>
-						</AlertDialogHeader>
-						<AlertDialogFooter>
-							<AlertDialogCancel>Отменить</AlertDialogCancel>
-							<AlertDialogAction onClick={onDelete}>
-								Продолжить
-							</AlertDialogAction>
-						</AlertDialogFooter>
-					</AlertDialogContent>
-				</AlertDialog>
+				<TableDeleteTrigger tableId={tableId} onSuccess={onDelete} />
 			</CardContent>
 		</Card>
 	);
