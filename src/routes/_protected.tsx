@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/shared/ui";
+import { SidebarProvider } from "@/shared/ui";
 import { AppSidebar } from "@/widgets/app-sidebar";
 
 export const Route = createFileRoute("/_protected")({
@@ -21,14 +21,7 @@ function RouteComponent() {
 	return (
 		<SidebarProvider>
 			<AppSidebar />
-			<SidebarInset>
-				<div className="border-b p-2">
-					<SidebarTrigger />
-				</div>
-				<div className="flex flex-col p-4 grow">
-					<Outlet />
-				</div>
-			</SidebarInset>
+			<Outlet />
 		</SidebarProvider>
 	);
 }

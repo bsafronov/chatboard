@@ -1,6 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { TableBreadcrumb } from "@/entities/table";
 import { RowCreateForm } from "@/features/row-create";
-import { Card, CardContent } from "@/shared/ui";
+import {
+	BreadcrumbItem,
+	Card,
+	CardContent,
+	Header,
+	Page,
+	Section,
+} from "@/shared/ui";
 
 export const Route = createFileRoute("/_protected/tables/$tableId/rows/new")({
 	component: RouteComponent,
@@ -11,17 +19,24 @@ function RouteComponent() {
 	const navigate = useNavigate();
 
 	return (
-		<div>
-			<Card>
-				<CardContent>
-					<RowCreateForm
-						tableId={tableId}
-						onSuccess={() => {
-							navigate({ to: "/tables/$tableId", params: { tableId } });
-						}}
-					/>
-				</CardContent>
-			</Card>
-		</div>
+		<Page>
+			<Header>
+				<TableBreadcrumb tableId={tableId}>
+					<BreadcrumbItem>Новая запись</BreadcrumbItem>
+				</TableBreadcrumb>
+			</Header>
+			<Section>
+				<Card>
+					<CardContent>
+						<RowCreateForm
+							tableId={tableId}
+							onSuccess={() => {
+								navigate({ to: "/tables/$tableId", params: { tableId } });
+							}}
+						/>
+					</CardContent>
+				</Card>
+			</Section>
+		</Page>
 	);
 }

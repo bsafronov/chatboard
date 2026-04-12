@@ -14,6 +14,8 @@ export function ColumnList({ tableId }: Props) {
 			.where((q) => eq(q.column.tableId, tableId)),
 	);
 
+	if (!columns.length) return null;
+
 	return (
 		<Card className="flex flex-col divide-y p-0 gap-0">
 			{columns.map((item) => (

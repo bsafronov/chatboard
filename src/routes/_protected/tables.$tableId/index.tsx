@@ -2,9 +2,18 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { LucidePlus, LucideSettings } from "lucide-react";
 import { Suspense, useCallback } from "react";
 import { rowCollection } from "@/entities/row";
+import { TableBreadcrumb } from "@/entities/table";
 import { RowCreateAiInput } from "@/features/row-create";
 import type { Row } from "@/server";
-import { buttonVariants, Card, CardContent, Skeleton } from "@/shared/ui";
+import {
+	buttonVariants,
+	Card,
+	CardContent,
+	Header,
+	Page,
+	Section,
+	Skeleton,
+} from "@/shared/ui";
 import { TableView } from "@/widgets/table-view";
 
 export const Route = createFileRoute("/_protected/tables/$tableId/")({
@@ -33,31 +42,40 @@ function RouteComponent() {
 	);
 
 	return (
-		<div className="flex flex-col grow gap-4">
-			<Suspense fallback={<Skeleton className="grow" />}>
-				<Card>
-					<CardContent className="p-0">
-						<TableView tableId={tableId} onDelete={onDelete} onEdit={onEdit} />
-					</CardContent>
-				</Card>
-			</Suspense>
-			<div className="flex items-center gap-2 mt-auto">
-				<Link
-					to="/tables/$tableId/settings"
-					params={{ tableId }}
-					className={buttonVariants({ size: "icon-lg", variant: "ghost" })}
-				>
-					<LucideSettings />
-				</Link>
-				<Link
-					to="/tables/$tableId/rows/new"
-					params={{ tableId }}
-					className={buttonVariants({ size: "icon" })}
-				>
-					<LucidePlus />
-				</Link>
-				<RowCreateAiInput />
-			</div>
-		</div>
+		<Page>
+			<Header>
+				<TableBreadcrumb tableId={tableId} />
+			</Header>
+			<Section>
+				<Suspense fallback={<Skeleton className="grow" />}>
+					<Card>
+						<CardContent className="p-0">
+							<TableView
+								tableId={tableId}
+								onDelete={onDelete}
+								onEdit={onEdit}
+							/>
+						</CardContent>
+					</Card>
+				</Suspense>
+				<div className="flex items-center gap-2 mt-auto">
+					<Link
+						to="/tables/$tableId/settings"
+						params={{ tableId }}
+						className={buttonVariants({ size: "icon-lg", variant: "ghost" })}
+					>
+						<LucideSettings />
+					</Link>
+					<Link
+						to="/tables/$tableId/rows/new"
+						params={{ tableId }}
+						className={buttonVariants({ size: "icon" })}
+					>
+						<LucidePlus />
+					</Link>
+					<RowCreateAiInput />
+				</div>
+			</Section>
+		</Page>
 	);
 }
