@@ -1,16 +1,19 @@
 "use client";
 
-import * as React from "react";
+import type * as React from "react";
 
 import { cn } from "@/shared/lib/utils";
-import { ScrollArea, ScrollBar } from "./scroll-area";
+import { ScrollArea, ScrollBar } from "../scroll-area";
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {
 	return (
 		<ScrollArea className="overflow-hidden">
 			<table
 				data-slot="table"
-				className={cn("w-full caption-bottom text-sm", className)}
+				className={cn(
+					"caption-bottom text-sm table-fixed w-full min-w-0",
+					className,
+				)}
 				{...props}
 			/>
 			<ScrollBar orientation="horizontal" />
@@ -22,7 +25,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
 	return (
 		<thead
 			data-slot="table-header"
-			className={cn("[&_tr]:border-b", className)}
+			className={cn("[&_tr]:border-b sticky top-0 z-10 bg-muted", className)}
 			{...props}
 		/>
 	);
@@ -51,12 +54,19 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
 	);
 }
 
-function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
+function TableRow({
+	className,
+	isGrouped,
+	...props
+}: React.ComponentProps<"tr"> & {
+	isGrouped?: boolean;
+}) {
 	return (
 		<tr
 			data-slot="table-row"
 			className={cn(
 				"border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted",
+				isGrouped && "sticky top-12 z-1 bg-card shadow-sm hover:bg-muted",
 				className,
 			)}
 			{...props}
@@ -82,7 +92,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
 		<td
 			data-slot="table-cell"
 			className={cn(
-				"p-3 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0",
+				"h-12 px-3 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0",
 				className,
 			)}
 			{...props}

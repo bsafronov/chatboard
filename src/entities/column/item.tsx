@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { Column } from "@/server";
 import { Badge, Button, Input } from "@/shared/ui";
 import { columnCollection } from "./collection";
-import { typeToName } from "./const";
+import { columnTypeToName } from "./const";
 
 type Props = {
 	column: Column;
@@ -16,7 +16,7 @@ export function ColumnItem({ column }: Props) {
 	return (
 		<div className="p-4 flex justify-between items-start gap-2">
 			<div className="flex items-center gap-2">
-				<Badge>{typeToName[column.type]}</Badge>
+				<Badge>{columnTypeToName[column.type]}</Badge>
 				<div className="flex items-center gap-1">
 					{editing ? (
 						<>

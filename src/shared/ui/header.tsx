@@ -8,7 +8,7 @@ export function Header({
 	...props
 }: ComponentProps<"div">) {
 	return (
-		<header className="border-b p-2 gap-2 flex sticky top-0">
+		<header className="border-b p-2 gap-2 flex sticky top-0 bg-background z-10">
 			<SidebarTrigger />
 			{children && (
 				<div className={cn("flex items-center gap-2")} {...props}>

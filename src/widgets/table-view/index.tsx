@@ -1,17 +1,16 @@
 import { eq, useLiveSuspenseQuery } from "@tanstack/react-db";
-import {
-	type ColumnDef,
-	getCoreRowModel,
-	useReactTable,
-} from "@tanstack/react-table";
+import { Link } from "@tanstack/react-router";
+import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { LucideMoreVertical } from "lucide-react";
 import { useMemo } from "react";
 import { columnCollection } from "@/entities/column";
 import { rowCollection } from "@/entities/row";
 import type { Row } from "@/server";
+import { useTable } from "@/shared/hooks";
 import {
 	Button,
+	buttonVariants,
 	DataTable,
 	DropdownMenu,
 	DropdownMenuContent,
@@ -59,6 +58,8 @@ export function TableView({ tableId, onDelete, onEdit }: Props) {
 	}, [rows]);
 
 	const resolvedColumns = useMemo(() => {
+		if (!columns.length) return [];
+
 		const base: ColumnDef<TableRow>[] = [
 			{
 				accessorKey: "createdAt",
@@ -123,8 +124,7 @@ export function TableView({ tableId, onDelete, onEdit }: Props) {
 		return [...dynamic, ...base, actions];
 	}, [columns, onEdit, onDelete]);
 
-	const table = useReactTable({
-		getCoreRowModel: getCoreRowModel(),
+	const table = useTable({
 		data: resolvedData,
 		columns: resolvedColumns,
 		manualPagination: true,
@@ -134,6 +134,20 @@ export function TableView({ tableId, onDelete, onEdit }: Props) {
 			columnPinning: { right: ["actions"] },
 		},
 	});
+
+	if (!columns.length)
+		return (
+			<div className="grid place-items-center gap-4">
+				<span className="text-muted-foreground">Нет колонок</span>
+				<Link
+					to="/tables/$tableId/settings"
+					params={{ tableId }}
+					className={buttonVariants()}
+				>
+					Настройки
+				</Link>
+			</div>
+		);
 
 	return <DataTable table={table} />;
 }

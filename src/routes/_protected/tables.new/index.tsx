@@ -1,16 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { read, utils } from "xlsx";
-import { previewTableDataStore } from "@/entities/table";
 import { TableCreateForm } from "@/features/table-create";
 import {
 	Card,
 	CardContent,
-	Dropzone,
 	Header,
 	HeaderTitle,
 	Page,
 	Section,
 } from "@/shared/ui";
+import { TableImport } from "@/widgets/table-import";
 
 export const Route = createFileRoute("/_protected/tables/new/")({
 	component: RouteComponent,
@@ -24,7 +22,7 @@ function RouteComponent() {
 			<Header>
 				<HeaderTitle>Новая таблица</HeaderTitle>
 			</Header>
-			<Section>
+			<Section className="overflow-hidden">
 				<Card>
 					<CardContent>
 						<TableCreateForm
@@ -37,43 +35,8 @@ function RouteComponent() {
 						/>
 					</CardContent>
 				</Card>
-				<Dropzone
-					onDrop={(files) => {
-						parseExcel(files[0], {
-							onSuccess: (data) => {
-								previewTableDataStore.setState(() => data);
-								navigate({ to: "/tables/new/preview" });
-							},
-						});
-					}}
-					accept={{
-						"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-							[],
-						"text/csv": [],
-					}}
-				/>
+				<TableImport />
 			</Section>
 		</Page>
 	);
-}
-
-function parseExcel(
-	file: File,
-	{ onSuccess }: { onSuccess?: (data: Record<string, unknown>[]) => void },
-) {
-	const reader = new FileReader();
-
-	reader.onload = (e) => {
-		const data = e.target?.result;
-		if (!data) return;
-		const workbook = read(data, { type: "array" });
-		const sheetName = workbook.SheetNames[0];
-		const sheet = workbook.Sheets[sheetName];
-		const json = utils.sheet_to_json(sheet, {
-			defval: "",
-		});
-		onSuccess?.(json as Record<string, unknown>[]);
-	};
-
-	reader.readAsArrayBuffer(file);
 }
